@@ -6,15 +6,15 @@ html {
 }
 
 :root {
-  --column-1: #a2622d;
-  --column-2: #1b6161;
-  --column-3: #248224;
-  --column-4: #a22d22;
+  --column-1: #e0e1dd;
+  --column-2: #778da9;
+  --column-3: #415a77;
+  --column-4: #0d1b2a;
 }
 
 body {
   margin: 0;
-  background: url("./trees.jpg");
+  background: url("../img/trees.jpg");
   background-size: cover;
   background-position: 50% 60%;
   background-attachment: fixed;
@@ -50,7 +50,6 @@ ul {
 
 /* Columns */
 .drag-column {
-
   margin: 0 10px;
   position: relative;
   background-color: rgba(0, 0, 0, 0.4);
