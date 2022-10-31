@@ -4,7 +4,7 @@ const addItemContainers = document.querySelectorAll(".add-container");
 const addItems = document.querySelectorAll(".add-item");
 
 // Item Lists
-const itemLists = document.querySelectorAll(".drag-item-list");
+const listOfColumns = document.querySelectorAll(".drag-item-list");
 
 const backlogList = document.getElementById("backlog-list");
 const progressList = document.getElementById("progress-list");
@@ -24,6 +24,7 @@ let listArrays = [];
 
 // Drag Functionality
 let currentlyDraggedItem;
+let currentColumn;
 
 // Get Arrays from localStorage if available, set default values if not
 function getSavedColumns() {
@@ -71,11 +72,11 @@ function updateSavedColumns() {
 
 // Create DOM Elements for each list item
 function createItemEl(columnEl, column, item, index) {
-  console.log("columnEl:", columnEl);
-  console.log("column:", column);
-  console.log("item:", item);
-  console.log("index:", index);
-  console.log("\n");
+  // console.log("columnEl:", columnEl);
+  // console.log("column:", column);
+  // console.log("item:", item);
+  // console.log("index:", index);
+  // console.log("\n");
 
   // List Item
   const listEl = document.createElement("li");
@@ -135,20 +136,35 @@ function updateDOM() {
 
 function beginDrag(e) {
   currentlyDraggedItem = e.target;
-  console.log(currentlyDraggedItem);
+  console.log("Dragged Item: ", currentlyDraggedItem);
+}
+
+/**
+ * Required by the 'ondragenter' event: fires when a draggable element or text selection enters a valid drop target
+ *
+ * In this case, it fires when an item enters the column area
+ * listOfColumns: a nodelist of all the Columns
+ * colIndex: the index of the column over which the item is dragged
+ */
+function dragEnter(colIndex) {
+  // add color & padding when an item enters the column area
+  listOfColumns[colIndex].classList.add("over");
+  // set currentColumn, i.e 0, 1, 2, & 3
+  currentColumn = colIndex;
+  console.log("listOfColumns: ", listOfColumns[colIndex]);
 }
 
 /**
  * Required by 'ondragover' event: specifies where the dragged data can be dropped
  *
  * This func allows items to the dropped in a Column
- * Without this function,
+ * Without this function preventing default, the endDrag function won't be triggered when a drop is made
  * Added to the 'ul' tag
  */
 function allowDrop(e) {
   // data/elements cannot be dropped in other elements
   e.preventDefault();
-  console.log("Allow Drop item: ", e.target);
+  // console.log("Allow Drop item: ", e.target);
 }
 
 /**
@@ -160,8 +176,19 @@ function allowDrop(e) {
 function endDrag(e) {
   // data/elements cannot be dropped in other elements
   e.preventDefault();
+  // remove color & padding from all columns when an item is dropped in a column area
+  listOfColumns.forEach((column) => {
+    column.classList.remove("over");
+    // console.log("Column: ", column);
+  });
 
-  console.log("Dropped item: ", e.target);
+  // Add new item to column
+  const parentEl = listOfColumns[currentColumn];
+  parentEl.appendChild(currentlyDraggedItem);
+  console.log("parentEl: ", parentEl);
+  // console.log("currentColumn: ", currentColumn);
+
+  // console.log("Dropped item: ", e.target);
 }
 
 // On load
