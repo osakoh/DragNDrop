@@ -128,14 +128,40 @@ function updateDOM() {
 }
 
 /**
- * specifies what happens when an element is dragged
+ * Required by 'ondragstart' event: specifies what happens when an element is dragged
  *
- * trigger when the list item is clicked/dragged
- *  */
+ * This func is triggered when the list item is clicked/dragged
+ * */
 
 function beginDrag(e) {
   currentlyDraggedItem = e.target;
   console.log(currentlyDraggedItem);
+}
+
+/**
+ * Required by 'ondragover' event: specifies where the dragged data can be dropped
+ *
+ * This func allows items to the dropped in a Column
+ * Without this function,
+ * Added to the 'ul' tag
+ */
+function allowDrop(e) {
+  // data/elements cannot be dropped in other elements
+  e.preventDefault();
+  console.log("Allow Drop item: ", e.target);
+}
+
+/**
+ * Dropping an item in a column
+ *
+ * This func is trigged when an item is dropped
+ * Added to the 'ul' tag
+ */
+function endDrag(e) {
+  // data/elements cannot be dropped in other elements
+  e.preventDefault();
+
+  console.log("Dropped item: ", e.target);
 }
 
 // On load
